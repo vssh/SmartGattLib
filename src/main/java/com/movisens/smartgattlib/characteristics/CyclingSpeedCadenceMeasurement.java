@@ -62,6 +62,15 @@ public class CyclingSpeedCadenceMeasurement {
         return lastCrankEventTime;
     }
 
+    public int getCadence(CyclingSpeedCadenceMeasurement csc) {
+        int cadence = -1;
+        if(isCrankRevPresent() && csc != null && csc.isCrankRevPresent()) {
+            cadence = (int)((getCumulativeCrankRevolutions() - csc.getCumulativeCrankRevolutions())
+                    / ((getLastCrankEventTime() - csc.getLastCrankEventTime()) / 1024F));
+        }
+        return cadence;
+    }
+
     private boolean wheelRevPresent(byte flags) {
         return (flags & GattUtils.FIRST_BITMASK) != 0;
     }
